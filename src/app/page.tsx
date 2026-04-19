@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowUpRight, Github, Linkedin } from "lucide-react";
 import { featuredProjects } from "./projects/page";
+import { getMediumPosts } from "@/lib/medium";
 
 const MediumIcon = () => (
   <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true">
@@ -18,7 +19,8 @@ const socialLinks = [
   },
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
+  const recentPosts = (await getMediumPosts()).slice(0, 3);
   return (
     <div className="space-y-20">
       {/* Hero */}
@@ -124,25 +126,9 @@ export default function HomePage() {
           </Link>
         </div>
         <div className="space-y-1">
-          {[
-            {
-              title: "How I passed the AWS SAA exam without spending a penny on resources",
-              date: "Oct 28, 2025",
-              href: "https://medium.com/@stanleylam909",
-            },
-            {
-              title: "Detecting Facial Action Units in Real-Time: Which Tool Works Best?",
-              date: "Oct 11, 2025",
-              href: "https://medium.com/@stanleylam909",
-            },
-            {
-              title: "How to Run a Diffusion Model Locally (without ComfyUI)",
-              date: "Oct 2, 2025",
-              href: "https://medium.com/@stanleylam909",
-            },
-          ].map((post) => (
+          {recentPosts.map((post) => (
             <Link
-              key={post.title}
+              key={post.href}
               href={post.href}
               target="_blank"
               rel="noopener noreferrer"
